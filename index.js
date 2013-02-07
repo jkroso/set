@@ -174,3 +174,21 @@ Set.prototype.isEmpty = function(){
   return !this.length;
 };
 
+/**
+ * Determine the relative compliment of `set` in `this`.
+ * Which is `this` without any elements from `set`
+ *
+ * @param {Set} set
+ * @return {Set} new Set
+ * @api public
+ */
+
+Set.prototype.subtract = function (set) {
+  var ret = new Set
+  for (var i = 0, len = this.length; i < len; i++) {
+    if (!set.has(this[i])) {
+      ret.add(this[i])
+    }
+  }
+  return ret
+}

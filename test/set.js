@@ -160,6 +160,23 @@ describe('Set()', function(){
     })
   })
 
+  describe('.subtract(set)', function () {
+    it('should perform a relative compliment', function () {
+      var a = new Set
+      a.add('one')
+      a.add('two')
+      a.add('three')
+
+      var b = new Set
+      b.add('three')
+
+      var set = a.subtract(b)
+      assert(set[0] === 'one')
+      assert(set[1] === 'two')
+      assert(set.length === 2)
+    })
+  })
+
   describe('.toJSON()', function(){
     it('should return the array', function(){
       var set = new Set;
