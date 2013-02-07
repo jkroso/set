@@ -110,7 +110,7 @@ describe('Set()', function(){
       assert(0 == set.size());
     })
 
-    it('should return the old values', function(){
+    it.skip('should return the old values', function(){
       var set = new Set;
       set.add('foo');
       set.add('bar');

@@ -1,3 +1,4 @@
+var splice = Array.prototype.splice
 
 /**
  * Expose `Set`.
@@ -14,7 +15,7 @@ module.exports = Set;
 
 function Set(vals) {
   if (!(this instanceof Set)) return new Set(vals);
-  this.vals = [];
+  this.length = 0
   if (vals) {
     for (var i = 0; i < vals.length; ++i) {
       this.add(vals[i]);
@@ -31,7 +32,7 @@ function Set(vals) {
 
 Set.prototype.add = function(val){
   if (this.has(val)) return;
-  this.vals.push(val);
+  this[this.length++] = val
 };
 
 /**
@@ -43,7 +44,7 @@ Set.prototype.add = function(val){
  */
 
 Set.prototype.has = function(val){
-  return !! ~this.indexOf(val);
+  return this.indexOf(val) > -1
 };
 
 /**
@@ -55,10 +56,10 @@ Set.prototype.has = function(val){
  */
 
 Set.prototype.indexOf = function(val){
-  for (var i = 0, len = this.vals.length; i < len; ++i) {
-    var obj = this.vals[i];
+  for (var i = 0, len = this.length; i < len; ++i) {
+    var obj = this[i]
+    if (obj === val) return i;
     if (obj.equals && obj.equals(val)) return i;
-    if (obj == val) return i;
   }
   return -1;
 };
@@ -72,8 +73,8 @@ Set.prototype.indexOf = function(val){
  */
 
 Set.prototype.each = function(fn){
-  for (var i = 0; i < this.vals.length; ++i) {
-    fn(this.vals[i]);
+  for (var i = 0; i < this.length; ++i) {
+    fn(this[i]);
   }
   return this;
 };
@@ -87,7 +88,7 @@ Set.prototype.each = function(fn){
 
 Set.prototype.values = 
 Set.prototype.toJSON = function(){
-  return this.vals;
+  return [].slice.call(this)
 };
 
 /**
@@ -98,38 +99,37 @@ Set.prototype.toJSON = function(){
  */
 
 Set.prototype.size = function(){
-  return this.vals.length;
+  return this.length;
 };
 
 /**
- * Empty the set and return old values.
+ * Empty the set
  *
- * @return {Array}
  * @api public
  */
 
 Set.prototype.clear = function(){
-  var old = this.vals;
-  this.vals = [];
-  return old;
+  while (this.length) {
+    delete this[--this.length]
+  }
 };
 
 /**
  * Remove `val`, returning __true__ when present, otherwise __false__.
  *
  * @param {Mixed} val
- * @return {Mixed}
+ * @return {Boolean}
  * @api public
  */
 
 Set.prototype.remove = function(val){
   var i = this.indexOf(val);
-  if (~i) this.vals.splice(i, 1);
-  return !! ~i;
+  if (i > -1) splice.call(this, i, 1)
+  return i > -1
 };
 
 /**
- * Perform a union on `set`.
+ * Combine `this` with `set`
  *
  * @param {Set} set
  * @return {Set} new set
@@ -137,16 +137,14 @@ Set.prototype.remove = function(val){
  */
 
 Set.prototype.union = function(set){
-  var ret = new Set;
-  var a = this.vals;
-  var b = set.vals;
-  for (var i = 0; i < a.length; ++i) ret.add(a[i]);
-  for (var i = 0; i < b.length; ++i) ret.add(b[i]);
+  var ret = new Set(this)
+  for (var i = 0; i < set.length; ++i) ret.add(set[i]);
   return ret;
 };
 
 /**
- * Perform an intersection on `set`.
+ * Determine the intersection of `this` and `set`.
+ * An intersection is the set of common elements
  *
  * @param {Set} set
  * @return {Set} new set
@@ -155,18 +153,10 @@ Set.prototype.union = function(set){
 
 Set.prototype.intersect = function(set){
   var ret = new Set;
-  var a = this.vals;
-  var b = set.vals;
 
-  for (var i = 0; i < a.length; ++i) {
-    if (set.has(a[i])) {
-      ret.add(a[i]);
-    }
-  }
-
-  for (var i = 0; i < b.length; ++i) {
-    if (this.has(b[i])) {
-      ret.add(b[i]);
+  for (var i = 0; i < this.length; ++i) {
+    if (set.has(this[i])) {
+      ret.add(this[i]);
     }
   }
 
@@ -181,6 +171,6 @@ Set.prototype.intersect = function(set){
  */
 
 Set.prototype.isEmpty = function(){
-  return 0 == this.vals.length;
+  return !this.length;
 };
 
