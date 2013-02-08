@@ -1,4 +1,5 @@
 var splice = Array.prototype.splice
+  , slice = require('sliced')
 
 /**
  * Expose `Set`.
@@ -88,7 +89,7 @@ Set.prototype.each = function(fn){
 
 Set.prototype.values = 
 Set.prototype.toJSON = function(){
-  return [].slice.call(this)
+  return slice(this)
 };
 
 /**
@@ -137,8 +138,10 @@ Set.prototype.remove = function(val){
  */
 
 Set.prototype.union = function(set){
-  var ret = new Set(this)
-  for (var i = 0; i < set.length; ++i) ret.add(set[i]);
+  var ret = new Set
+  for (var i = 0, len = this.length; i < len; ++i) ret[i] = this[i]
+  ret.length = len
+  for (var i = 0, len = set.length; i < len; ++i) ret.add(set[i]);
   return ret;
 };
 

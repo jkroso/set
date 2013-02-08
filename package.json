@@ -2,10 +2,15 @@
   "name": "set-component",
   "version": "1.0.0",
   "description": "Set container",
-  "keywords": ["set"],
+  "keywords": [
+    "set"
+  ],
   "component": {
     "scripts": {
       "set/index.js": "index.js"
     }
+  },
+  "dependencies": {
+    "sliced": "*"
   }
 }
