@@ -59,8 +59,8 @@ Set.prototype.has = function(val){
 Set.prototype.indexOf = function(val){
   for (var i = 0, len = this.length; i < len; ++i) {
     var obj = this[i]
-    if (obj === val) return i;
     if (obj.equals && obj.equals(val)) return i;
+    if (obj === val) return i;
   }
   return -1;
 };
