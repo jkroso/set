@@ -12,6 +12,6 @@
     "component/assert": "*"
   },
   "dependencies": {
-    "aheckmann/sliced": "*"
+    "aheckmann/sliced": "0.0.5"
   }
 }

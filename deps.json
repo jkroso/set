@@ -1,0 +1,8 @@
+{
+  "production": {
+    "sliced": "http://github.com/aheckmann/sliced/tarball/0.0.5"
+  },
+  "development": {
+    "assert": "http://github.com/component/assert/tarball/0.1.1"
+  }
+}

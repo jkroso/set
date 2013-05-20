@@ -10,7 +10,9 @@
       "set/index.js": "index.js"
     }
   },
-  "dependencies": {
-    "sliced": "*"
+  "devDependencies": {
+    "mocha": "~1.9.0",
+    "sourcegraph": "~0.7.0",
+    "bigfile": "~0.4.0"
   }
 }

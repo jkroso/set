@@ -1,11 +1,19 @@
+REPORTER=dot
 
-build: index.js components
-	@component build --dev
+test/built.js: index.js test/*
+	@node_modules/.bin/sourcegraph.js \
+		-p mocha,nodeish \
+		test/browser.js \
+		| node_modules/.bin/bigfile.js > $@
 
-components:
-	@component install --dev
+test:
+	@node_modules/.bin/_mocha \
+		--bail \
+		--reporter $(REPORTER) \
+		test/*.test.js
 
-clean:
-	rm -fr build components
+install:
+	npm install
+	packin install
 
-.PHONY: clean
+.PHONY: test	
