@@ -1,3 +1,4 @@
+
 var splice = Array.prototype.splice
   , slice = require('sliced')
 
@@ -17,10 +18,8 @@ module.exports = Set;
 function Set(vals) {
   if (!(this instanceof Set)) return new Set(vals);
   this.length = 0
-  if (vals) {
-    for (var i = 0; i < vals.length; ++i) {
-      this.add(vals[i]);
-    }
+  if (vals) for (var i = 0; i < vals.length; ++i) {
+    this.add(vals[i]);
   }
 }
 
@@ -74,7 +73,7 @@ Set.prototype.indexOf = function(val){
  */
 
 Set.prototype.each = function(fn){
-  for (var i = 0; i < this.length; ++i) {
+  for (var i = 0, len = this.length; i < len; ++i) {
     fn(this[i]);
   }
   return this;
@@ -90,17 +89,6 @@ Set.prototype.each = function(fn){
 Set.prototype.values = 
 Set.prototype.toJSON = function(){
   return slice(this)
-};
-
-/**
- * Return the set size.
- *
- * @return {Number}
- * @api public
- */
-
-Set.prototype.size = function(){
-  return this.length;
 };
 
 /**
@@ -158,9 +146,7 @@ Set.prototype.intersect = function(set){
   var ret = new Set;
 
   for (var i = 0; i < this.length; ++i) {
-    if (set.has(this[i])) {
-      ret.add(this[i]);
-    }
+    if (set.has(this[i])) ret.add(this[i]);
   }
 
   return ret;
@@ -189,9 +175,7 @@ Set.prototype.isEmpty = function(){
 Set.prototype.subtract = function (set) {
   var ret = new Set
   for (var i = 0, len = this.length; i < len; i++) {
-    if (!set.has(this[i])) {
-      ret.add(this[i])
-    }
+    if (!set.has(this[i])) ret.add(this[i])
   }
   return ret
 }
